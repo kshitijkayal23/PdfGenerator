@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pdfgenerator-dotnet
+  labels:
+    app: pdfgenerator-dotnet
+spec:
+  replicas: 1 # Number of pods to run
+  selector:
+    matchLabels:
+      app: pdfgenerator-dotnet
+  template:
+    metadata:
+      labels:
+        app: pdfgenerator-dotnet
+    spec:
+      containers:
+        - name: pdfgenerator-dotnet
+          image: emsdev.apm.abb.local:8443:pdfgenerator-dotnet:2 # Replace with your actual Docker image name
+          ports:
+            - containerPort: 8080
+            - containerPort: 443
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+            requests:
+              memory: "256Mi"
+              cpu: "0.5"

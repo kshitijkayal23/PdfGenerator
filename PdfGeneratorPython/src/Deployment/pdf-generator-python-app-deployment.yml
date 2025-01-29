@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pdf-generator-python-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pdf-generator-python-app
+  template:
+    metadata:
+      labels:
+        app: pdf-generator-python-app
+    spec:
+      containers:
+        - name: pdf-generator-python-app
+          image: emsdev.apm.abb.local:8443:pdfgenerator-python:1 # Update this with your Docker image name and tag
+          ports:
+            - containerPort: 5000
+          env:
+            - name: FLASK_ENV
+              value: "production"
+            - name: FLASK_APP
+              value: "main.py"
+            - name: LOG_LEVEL
+              value: "DEBUG"
